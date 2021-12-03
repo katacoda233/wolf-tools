@@ -1,0 +1,30 @@
+{
+  "name": "wolf-tools",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "classnames": "^2.3.1",
+    "ethers": "^5.5.2",
+    "next": "^12.0.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "cssnano": "^5.0.12",
+    "daisyui": "^1.16.2",
+    "pnpm": "^6.23.5",
+    "postcss": "^8.4.4",
+    "postcss-nested": "^5.0.6",
+    "tailwindcss": "^2.2.19",
+    "tailwindcss-debug-screens": "^2.2.0",
+    "tailwindcss-question-mark": "^0.1.1"
+  }
+}

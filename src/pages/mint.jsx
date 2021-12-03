@@ -15,9 +15,11 @@ const getTransferEvents = async (txid) => {
 
   const contract = new ethers.Contract('0x1d293cad3476f064cB684A37Ede558f8C1114a7a', abi, provider)
   const filter = await contract.filters.Transfer(null, null, null)
-  const events = await contract.queryFilter(filter, txBlockNum, txBlockNum)
-
-  const result = events.map((event) => {
+  const blockEvents = await contract.queryFilter(filter, txBlockNum, txBlockNum)
+  const userEvents = blockEvents.filter((event) => {
+    return event.transactionHash.toLowerCase() === txid.toLowerCase()
+  })
+  const result = userEvents.map((event) => {
     const toAddress = event.args[1]
     return {
       tokenId: event.args[2].toNumber(),
@@ -25,8 +27,6 @@ const getTransferEvents = async (txid) => {
       isStolen: toAddress !== BARN_CONTRACT_ADDRESS && toAddress !== txData.from,
     }
   })
-  console.log(result)
-
   return result
 }
 
@@ -51,19 +51,19 @@ function MintPage () {
   return (
     <div className="min-h-screen grid bg-base-200" style={{ gridTemplateRows: 'auto 1fr auto' }}>
       <Header />
-      <main className="container max-w-lg mx-auto mt-12">
+      <main className="container max-w-lg mx-auto mt-12 px-4">
         <h1 className="text-2xl mb-2">Mint Detail</h1>
         <form action="" onSubmit={handleSubmit}>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Transaction ID</span>
+              <span className="label-text">Transaction Hash:</span>
             </label>
             <input
               type="text" placeholder="0xabcd..." className="input input-bordered"
               value={txid} onChange={(e) => setTxid(e.target.value)}
             />
           </div>
-          <div className="form-control mt-8">
+          <div className="form-control mt-4">
             <button
               onClick={handleSubmit}
               className={classNames('btn btn-primary btn-wide mx-auto', {loading})}>View Detail</button>
